@@ -1,0 +1,100 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://DAE/Idle.dae" type="PackedScene" id=1]
+[ext_resource path="res://CameraFollow.gd" type="Script" id=2]
+[ext_resource path="res://Idle.tres" type="Animation" id=3]
+[ext_resource path="res://Animations/Running.anim" type="Animation" id=4]
+[ext_resource path="res://Walking.tres" type="Animation" id=5]
+
+[sub_resource type="CapsuleShape" id=1]
+
+radius = 0.412066
+height = 1.14544
+
+[node name="Scene Root" instance=ExtResource( 1 )]
+
+_sections_unfolded = [ "Transform" ]
+
+[node name="Target" type="Spatial" parent="." index="0"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.68241, 0 )
+
+[node name="Camera" type="Camera" parent="Target" index="0"]
+
+transform = Transform( -1, 3.23402e-08, -1.47492e-07, 0, 0.976794, 0.214179, 1.50996e-07, 0.214179, -0.976794, -2.65866e-07, 0.274377, -1.76075 )
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = true
+fov = 70.0
+size = 1.0
+near = 0.05
+far = 100.0
+script = ExtResource( 2 )
+distance = 4.0
+height = 2.0
+
+[node name="AnimationPlayer" parent="." index="2"]
+
+autoplay = "Idle"
+anims/Idle = ExtResource( 3 )
+anims/Running = ExtResource( 4 )
+anims/Walking = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="." index="3"]
+
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.934777, -4.08604e-08 )
+shape = SubResource( 1 )
+disabled = false
+
+[node name="AnimationTreePlayer" type="AnimationTreePlayer" parent="." index="4"]
+
+playback_process_mode = 1
+master_player = NodePath("../AnimationPlayer")
+base_path = NodePath("..")
+active = true
+data = {
+"active": true,
+"connections": [ "Idle_Walk", "out", 0, "Idle", "Idle_Walk", 0, "Walking", "Idle_Walk", 1, "Running", "Idle_Walk", 2 ],
+"master": NodePath("../AnimationPlayer"),
+"nodes": [ {
+"id": "out",
+"position": Vector2( 606, 178 ),
+"type": "output"
+}, {
+"animation": ExtResource( 3 ),
+"filter": [  ],
+"id": "Idle",
+"position": Vector2( 168, 52 ),
+"type": "animation"
+}, {
+"filter": [  ],
+"from": "Running",
+"id": "Running",
+"position": Vector2( 166, 278 ),
+"type": "animation"
+}, {
+"filter": [  ],
+"from": "Walking",
+"id": "Walking",
+"position": Vector2( 170, 161 ),
+"type": "animation"
+}, {
+"blend": -1.0,
+"id": "Idle_Walk",
+"position": Vector2( 456, 178 ),
+"type": "blend3"
+}, {
+"blend": 0.5,
+"filter": [  ],
+"id": "Idle_Walk1",
+"position": Vector2( 452, 37 ),
+"type": "blend2"
+} ]
+}
+
+
